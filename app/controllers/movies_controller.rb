@@ -58,4 +58,9 @@ class MoviesController < ApplicationController
     redirect_to movies_path
   end
 
+  def search_similar_movies
+    @movies = Movie.find_similar_movies(params[:id])
+    render :template => 'movies/index'
+  end
+
 end
