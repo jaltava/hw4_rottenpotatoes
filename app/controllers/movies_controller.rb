@@ -59,8 +59,16 @@ class MoviesController < ApplicationController
   end
 
   def search_similar_movies
-    @movies = Movie.find_similar_movies(params[:id])
-    render :template => 'movies/index'
+    @movie = Movie.find(params[:id])
+    if @movie.director == nil || @movie.director == ''
+      flash[:notice] = "'#{@movie.title}' has no director info"
+      redirect_to movies_path
+    else
+      @movies = Movie.find_similar_movies(params[:id])
+      @all_ratings = Movie.all_ratings
+      @selected_ratings = {}
+      render :template => 'movies/index'
+    end
   end
 
 end
